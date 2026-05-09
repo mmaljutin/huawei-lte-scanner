@@ -1,0 +1,13 @@
+logs/
+*.log
+*.csv
+
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+.DS_Store

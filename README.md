@@ -28,7 +28,7 @@ python --version
 ### 2. Get the code
 
 ```bash
-git clone https://github.com/<your-username>/huawei-lte-scanner.git
+git clone https://github.com/mmaljutin/huawei-lte-scanner.git
 cd huawei-lte-scanner
 ```
 

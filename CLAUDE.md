@@ -9,15 +9,13 @@ LTE band benchmarking tool for Huawei B818-263 router. Switches LTE bands one by
 ## Running the scripts
 
 ```bash
-# Full benchmark (9 bands, ~10 min)
+# Full benchmark (10 band configs, ~10 min)
 python lte_benchmark.py
+python lte_benchmark.py --long   # 5 speed tests per band, slower but more reliable
 
 # Apply a specific band immediately
 python set_band.py B7
 python set_band.py          # interactive menu
-
-# One-time diagnostics
-python diagnose.py
 ```
 
 Dependencies: `pip install -r requirements.txt` (`huawei-lte-api`, `speedtest-cli`)
@@ -72,15 +70,12 @@ LTE band N = `2**(N-1)` as hex string. Combinations are bitwise OR:
 - `net_feature_switch` returns `lteband_switch: '0'` and `lock_freq_switch: '0'` — these are locked by the operator firmware and cannot be enabled via API. Despite this, band switching works via the mechanism above.
 - AT command endpoint (`/api/device/at-command`) requires elevated privileges not accessible via standard admin login.
 - PCI/cell locking is not achievable via HTTP API on this firmware — `cell_lock.py` exists for future USB serial AT command approach.
-- `speedtest-cli` server selection: the server is picked once before the loop (`pick_speedtest_server()`) and reused for all 9 tests to ensure fair comparison.
+- `speedtest-cli` server selection: the server is picked once before the loop (`pick_speedtest_server()`) and reused for all band tests to ensure fair comparison.
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `lte_benchmark.py` | Main benchmark loop |
-| `set_band.py` | Standalone band switcher |
-| `cell_lock.py` | USB serial AT command cell lock (requires pyserial + USB cable) |
-| `diagnose.py` | Ad-hoc router state inspection |
-| `debug_request.py` | HTTP request interceptor for API debugging |
-| `raw_test.py` | Raw requests-based API experiments |
+| `lte_benchmark.py` | Main benchmark loop (writes CSV + per-run log to `logs/`) |
+| `set_band.py` | Standalone band switcher (CLI arg or interactive menu) |
+| `cell_lock.py` | USB serial AT command cell lock (requires pyserial + USB cable) — experimental, not part of the main flow |
